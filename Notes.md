@@ -56,3 +56,11 @@ createdBy:{
     ref:"User"
 }
 ```
+In node we have access to process we can exit the process using 
+```
+process.exit(1);
+```
+To run anything experimental we use -r flag like this 
+```
+-r dotenv/config --experimental-json-modules
+```
