@@ -13,3 +13,11 @@
 7. app.use(express.urlEncoded({extended:true,limit:"16kb"})) this is use for understanding data from url such saurabh%20Kobarne and extended is use for using nested objects
 
 8. app.use(express.static("public")) this line is use for storing static assets such as pdf ,imgs on the server in the "Public" Folder
+
+9. Make utils files which are going to be very frequently use
+
+10. make models files for the project
+
+11. whatever hooks you are using make it in models files 
+
+12.

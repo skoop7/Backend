@@ -76,3 +76,13 @@ Middlewares are nothing but internediate functions filter which will check the r
 
 (err,req,res,next) here next is the flag which is used in middlewares and it will say that after completing his task go the next middleware
 
+mongoDB generates ID on its own and save it in Bson data not in Json Data
+
+pre Hooks are middlewares which are readymade by mongoose which helps in performing the action just before save
+and just like pre there is a post hook to perform action just after save
+
+**JWT**
+
+JWT is a bearer token .It is like one who have it he will share the data to it
+
+
