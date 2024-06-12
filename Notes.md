@@ -64,3 +64,15 @@ To run anything experimental we use -r flag like this
 ```
 -r dotenv/config --experimental-json-modules
 ```
+
+Whenever you write async code it will return promise also
+
+
+App.use is generally used in middlewares 
+
+Cookie-Parser is generally used for performing CRUD operation on users browser cookies
+
+Middlewares are nothing but internediate functions filter which will check the request first before reaching it to the server
+
+(err,req,res,next) here next is the flag which is used in middlewares and it will say that after completing his task go the next middleware
+
