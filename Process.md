@@ -20,4 +20,12 @@
 
 11. whatever hooks you are using make it in models files 
 
-12.
+12. make a cloudinary utility
+
+13. make a middleware of multer for file utility
+
+14. create a user controller 
+
+15. create user routes in routes folder
+
+16. To use router in app.js use middleware

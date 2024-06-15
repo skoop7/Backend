@@ -86,3 +86,4 @@ and just like pre there is a post hook to perform action just after save
 JWT is a bearer token .It is like one who have it he will share the data to it
 
 
+If you seprate the routes from app.js then we can not directly use routes. For that we need to use middlewares
