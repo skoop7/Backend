@@ -85,5 +85,20 @@ and just like pre there is a post hook to perform action just after save
 
 JWT is a bearer token .It is like one who have it he will share the data to it
 
+Suppose a person is authenticated then we can give him certain features access.But access tokens are short lived token while refresh tokens are long lived tokens.
+
+Example-
+
+Suppose if you login into your account then acess token is generated but after sometime suppose 15 min it will get expired so you need to login again but if you have refresh token its copy is saved into server database and users copy and servers copy if get matched then server again provide new access token to user
+
+There are 2 users 
+
+1.User- It is monggoDb user having all mongo methods such as findOne ,create,etc
+
+2.user-It is instance of User which is returned having methods which are created by us such as generateAccessToken,generateRefreshToken,etc
+
 
 If you seprate the routes from app.js then we can not directly use routes. For that we need to use middlewares
+
+
+
