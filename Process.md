@@ -28,4 +28,6 @@
 
 15. create user routes in routes folder
 
-16. To use router in app.js use middleware
+16. To use router in app.js use middleware i.e by using app.use()
+
+17. write a logic of register User
