@@ -31,3 +31,5 @@
 16. To use router in app.js use middleware i.e by using app.use()
 
 17. write a logic of register User
+
+18. in postman we used form data in body becuase we need to upload file
