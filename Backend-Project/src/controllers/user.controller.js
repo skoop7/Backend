@@ -5,6 +5,7 @@ import { uploadToCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { deleteFromCloudinary } from "../utils/DeleteImageFromCloudinary.js";
+import mongoose from "mongoose";
 
 const generateAccessandRefreshToken = async (userId) => {
   try {
@@ -432,6 +433,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
       )
     );
 });
+
 export {
   registerUser,
   loginUser,
