@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { deleteFromCloudinary } from "../utils/DeleteImageFromCloudinary.js";
 
 const generateAccessandRefreshToken = async (userId) => {
   try {
@@ -264,17 +265,30 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar file path is missing");
   }
-  const avatar = await uploadToCloudinary(avatarLocalPath);
-  if (!avatar) {
+  const newavatar = await uploadToCloudinary(avatarLocalPath);
+  if (!newavatar) {
     throw new ApiError(400, "Something went wrong while uploading avatar");
   }
+
+  if (user.avatar) {
+    const deletionResult = await deleteFromCloudinary(user.avatar);
+    if (!deletionResult) {
+      throw new ApiError(400, "Something went wrong while deleting avatar");
+    }
+  }
+
   const updatedUser = await User.findByIdAndUpdate(
     req.user?._id,
     {
-      $set: { avatar },
+      $set: { avatar: newavatar },
     },
     { new: true }
   ).select("-password");
+
+  if (!updatedUser) {
+    throw new ApiError(400, "Something went wrong while updating avatar");
+  }
+
   return res
     .status(200)
     .json(new ApiResponse(200, updatedUser, "Avatar updated successfully"));
@@ -304,6 +318,68 @@ const updateCoverImage = asyncHandler(async (req, res) => {
     );
 });
 
+const getUserChannelProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+  if (!username?.trim()) {
+    throw new ApiError(400, "username is required");
+  }
+  const channel = await User.aggregate([
+    {
+      $match: {
+        username: username.toLowerCase(),
+      },
+    },
+    {
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "channel",
+        as: "subscribers",
+      },
+    },
+    {
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "subscriber",
+        as: "subscribedTo",
+      },
+    },
+    {
+      $addFields: {
+        subscribersCount: { $size: "$subscribers" },
+        subscribedToCount: { $size: "$subscribedTo" },
+        isSubscribed: {
+          $cond: {
+            if: { $in: [req.user?._id, "$subscribers.subscriber"] }, // check if user is there and if there then extract id from subscribers model
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        subscribers: 1,
+        subscribedTo: 1,
+        fullName: 1,
+        username: 1,
+        avatar: 1,
+        coverImage: 1,
+        email: 1,
+        isSubscribed: 1,
+      }, //it will project only required fields
+    },
+  ]);
+  if (!channel?.length) {
+    throw new ApiError(404, "Channel not exist");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, channel[0], "Channel found successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -314,4 +390,5 @@ export {
   updateUserAvatar,
   updateAccountDetails,
   updateCoverImage,
+  getUserChannelProfile,
 };
