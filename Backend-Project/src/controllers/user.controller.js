@@ -369,6 +369,8 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         coverImage: 1,
         email: 1,
         isSubscribed: 1,
+        subscribersCount: 1,
+        subscribedToCount: 1,
       }, //it will project only required fields
     },
   ]);
